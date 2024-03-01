@@ -4,6 +4,15 @@ class Graph {
         this.segments = segments;
     }
 
+    static load(info) {
+        const points = info.points.map((i) => new Point(i.x, i.y));
+        const segments = info.segments.map((i) => new Segment(
+            points.find((p) => p.equals(i.p1)),
+            points.find((p) => p.equals(i.p2))
+        ));
+        return new Graph(points, segments);
+    }
+
     addPoint(point) {
         this.points.push(point);
     }
@@ -18,7 +27,6 @@ class Graph {
             return true;
         }
         return false;
-
     }
 
     containsSegment(seg) {
@@ -26,7 +34,9 @@ class Graph {
     }
 
     tryAddSegment(seg) {
+        // If the context isn't the segment and the two ends of the segment don't match
         if (!this.containsSegment(seg) && !seg.p1.equals(seg.p2)) {
+            // Pushes the [x, y] segment into the array of segments
             this.addSegment(seg);
             return true;
         }

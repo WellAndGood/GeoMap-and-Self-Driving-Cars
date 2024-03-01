@@ -18,14 +18,14 @@ class Point {
             ctx.beginPath();
             ctx.lineWidth = 2;
             ctx.strokeStyle = "yellow";
-            ctx.arc(this.x, this.y, rad * 0.6, 0, Math.PI *2)
+            ctx.arc(this.x, this.y, rad * 0.6, 0, Math.PI * 2);
             ctx.stroke();
-        }
+         }
         if (fill) {
             ctx.beginPath();
             ctx.arc(this.x, this.y, rad * 0.4, 0, Math.PI * 2);
             ctx.fillStyle = "yellow";
             ctx.fill();
-        }
+         }
     }
 }
