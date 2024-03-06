@@ -26,3 +26,14 @@ function getNearestPoint(loc, points, threshold = Number.MAX_SAFE_INTEGER) {
  function scale(p, scaler) {
     return new Point(p.x * scaler, p.y * scaler);
  }
+
+ function translate(loc, angle, offset) {
+   return new Point(
+      loc.x + Math.cos(angle) * offset,
+      loc.y + Math.sin(angle) * offset
+   );
+ }
+
+ function angle(p) {
+   return Math.atan2(p.y, p.x);
+ }
