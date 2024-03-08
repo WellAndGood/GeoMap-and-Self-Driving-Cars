@@ -1,5 +1,5 @@
 class Envelope {
-    constructor(skeleton, width, roundness = 200) {
+    constructor(skeleton, width, roundness = 50) {
         this.skeleton = skeleton;
         this.poly = this.#generatePolygon(width, roundness);
     }
@@ -32,6 +32,7 @@ class Envelope {
 
     draw(ctx) {
         this.poly.draw(ctx);
+        // this.poly.drawSegments(ctx);
     }
 
 }
