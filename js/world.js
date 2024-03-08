@@ -32,6 +32,4 @@ class World {
             seg.draw(ctx, {color: "white", width: 4});
         }
     }
-
-
 }
