@@ -1,42 +1,42 @@
 class Light extends Marking {
-    constructor(center, directionVector, width, height) {
-        super (center, directionVector, width, 18)
-        
-        this.state = "off";
-        this.border = this.poly.segments[0];
-        this.type = "light";
-    };
+   constructor(center, directionVector, width, height) {
+      super(center, directionVector, width, 18);
 
-    draw(ctx) {
-        const perp = perpendicular(this.directionVector);
-        const line = new Segment(
-            add(this.center, scale(perp, this.width / 2)),
-            add(this.center, scale(perp, -this.width / 2))
-        );
+      this.state = "off";
+      this.border = this.poly.segments[0];
+      this.type = "light";
+   }
 
-        const green = lerp2D(line.p1, line.p2, 0.2);
-        const yellow = lerp2D(line.p1, line.p2, 0.5);
-        const red = lerp2D(line.p1, line.p2, 0.8);
+   draw(ctx) {
+      const perp = perpendicular(this.directionVector);
+      const line = new Segment(
+         add(this.center, scale(perp, this.width / 2)),
+         add(this.center, scale(perp, -this.width / 2))
+      );
 
-        new Segment(red, green).draw(ctx, {
-            width: this.height,
-            cap: "round"
-        });
+      const green = lerp2D(line.p1, line.p2, 0.2);
+      const yellow = lerp2D(line.p1, line.p2, 0.5);
+      const red = lerp2D(line.p1, line.p2, 0.8);
 
-        green.draw(ctx, { sizez: this.height * 0.6, color: "#060"});
-        yellow.draw(ctx, { sizez: this.height * 0.6, color: "#660"});
-        red.draw(ctx, { sizez: this.height * 0.6, color: "#600"});
+      new Segment(red, green).draw(ctx, {
+         width: this.height,
+         cap: "round"
+      });
 
-        switch (this.state) {
-            case "green": 
-                green.draw(ctx, {size: this.height, color: "#0F0"});
-                break;
-            case "yellow":
-                yellow.draw(ctx, {size: this.height, color: "#FF0"});
-                break;
-            case "red":
-                red.draw(ctx, {size: this.height, color: "#F00"});
-                break;
-        }
-    }
+      green.draw(ctx, { size: this.height * 0.6, color: "#060" });
+      yellow.draw(ctx, { size: this.height * 0.6, color: "#660" });
+      red.draw(ctx, { size: this.height * 0.6, color: "#600" });
+
+      switch (this.state) {
+         case "green":
+            green.draw(ctx, { size: this.height * 0.6, color: "#0F0" });
+            break;
+         case "yellow":
+            yellow.draw(ctx, { size: this.height * 0.6, color: "#FF0" });
+            break;
+         case "red":
+            red.draw(ctx, { size: this.height * 0.6, color: "#F00" });
+            break;
+      }
+   }
 }

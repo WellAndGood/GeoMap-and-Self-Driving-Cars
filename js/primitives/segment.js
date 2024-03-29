@@ -1,26 +1,25 @@
 class Segment {
-    constructor(p1, p2) {
-       this.p1 = p1;
-       this.p2 = p2;
-    }
+   constructor(p1, p2) {
+      this.p1 = p1;
+      this.p2 = p2;
+   }
 
-    length() {
-      return distance(this.p1, this.p2)
-    }
+   length() {
+      return distance(this.p1, this.p2);
+   }
 
-    directionVector() {
+   directionVector() {
       return normalize(subtract(this.p2, this.p1));
-    }
- 
-    equals(seg) {
-       return this.includes(seg.p1) && this.includes(seg.p2);
-    }
- 
-    includes(point) {
-       return this.p1.equals(point) || this.p2.equals(point);
-    }
+   }
 
-    // Look at Radu's video "Learn 2D Vectors with JavaScript" for more information
+   equals(seg) {
+      return this.includes(seg.p1) && this.includes(seg.p2);
+   }
+
+   includes(point) {
+      return this.p1.equals(point) || this.p2.equals(point);
+   }
+
    distanceToPoint(point) {
       const proj = this.projectPoint(point);
       if (proj.offset > 0 && proj.offset < 1) {
@@ -43,15 +42,15 @@ class Segment {
       return proj;
    }
 
-
-    draw(ctx, { width = 2, color = "black", dash = [] } = {}) {
-       ctx.beginPath();
-       ctx.lineWidth = width;
-       ctx.strokeStyle = color;
-       ctx.setLineDash(dash);
-       ctx.moveTo(this.p1.x, this.p1.y);
-       ctx.lineTo(this.p2.x, this.p2.y);
-       ctx.stroke();
-       ctx.setLineDash([]);
-    }
- }
+   draw(ctx, { width = 2, color = "black", dash = [], cap = "butt" } = {}) {
+      ctx.beginPath();
+      ctx.lineWidth = width;
+      ctx.strokeStyle = color;
+      ctx.lineCap = cap;
+      ctx.setLineDash(dash);
+      ctx.moveTo(this.p1.x, this.p1.y);
+      ctx.lineTo(this.p2.x, this.p2.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+   }
+}

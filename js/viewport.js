@@ -3,7 +3,7 @@ class Viewport {
       this.canvas = canvas;
       this.ctx = canvas.getContext("2d");
 
-      this.zoom = zzoom;
+      this.zoom = zoom;
       this.center = new Point(canvas.width / 2, canvas.height / 2);
       this.offset = offset ? offset : scale(this.center, -1);
 
