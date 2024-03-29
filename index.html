@@ -10,23 +10,23 @@
       <div id="controls">
          <button onclick="dispose()">🗑️</button>
          <button onclick="save()">💾</button>
-         &nbsp;
          <label for="fileInput" class="file-input-label">
-            📂
+            📁
             <input
                type="file"
                id="fileInput"
                accept=".world"
-               onchange="load(event)">
+               onchange="load(event)"
+            />
          </label>
+         &nbsp;
          <button id="graphBtn" onclick="setMode('graph')">🌐</button>
          <button id="stopBtn" onclick="setMode('stop')">🛑</button>
-         &nbsp;
          <button id="yieldBtn" onclick="setMode('yield')">⚠️</button>
-         <button id="crossingBtn" onclick="setMode('crossing')">🚶‍♀️</button>
+         <button id="crossingBtn" onclick="setMode('crossing')">🚶</button>
          <button id="parkingBtn" onclick="setMode('parking')">🅿️</button>
          <button id="lightBtn" onclick="setMode('light')">🚦</button>
-         <button id="startBtn" onclick="setMode('start')">🚗</button>
+         <button id="startBtn" onclick="setMode('start')">🚙</button>
          <button id="targetBtn" onclick="setMode('target')">🎯</button>
       </div>
 
@@ -65,22 +65,23 @@
 
          const worldString = localStorage.getItem("world");
          const worldInfo = worldString ? JSON.parse(worldString) : null;
-         let world = worldInfo 
+         let world = worldInfo
             ? World.load(worldInfo)
             : new World(new Graph());
-         const graph = world.graph;
+         const graph = world.graph; 
 
          const viewport = new Viewport(myCanvas, world.zoom, world.offset);
+
          const tools = {
             graph: { button: graphBtn, editor: new GraphEditor(viewport, graph) },
             stop: { button: stopBtn, editor: new StopEditor(viewport, world) },
-            crossing: {button: crossingBtn, editor: new CrossingEditor(viewport, world) },
-            start: {button: startBtn, editor: new StartEditor(viewport, world) },
-            parking: {button: parkingBtn, editor: new ParkingEditor(viewport, world) }, 
-            light: {button: lightBtn, editor: new LightEditor(viewport, world) },
-            target: {button: targetBtn, editor: new TargetEditor(viewport, world) }, 
-            yield: {button: yieldBtn, editor: new YieldEditor(viewport, world) } 
-         }
+            crossing: { button: crossingBtn, editor: new CrossingEditor(viewport, world) },
+            start: { button: startBtn, editor: new StartEditor(viewport, world) },
+            parking: { button: parkingBtn, editor: new ParkingEditor(viewport, world) },
+            light: { button: lightBtn, editor: new LightEditor(viewport, world) },
+            target: { button: targetBtn, editor: new TargetEditor(viewport, world) },
+            yield: { button: yieldBtn, editor: new YieldEditor(viewport, world) },
+         };
 
          let oldGraphHash = graph.hash();
 
@@ -90,7 +91,6 @@
 
          function animate() {
             viewport.reset();
-            
             if (graph.hash() != oldGraphHash) {
                world.generate();
                oldGraphHash = graph.hash();
@@ -98,10 +98,9 @@
             const viewPoint = scale(viewport.getOffset(), -1);
             world.draw(ctx, viewPoint);
             ctx.globalAlpha = 0.3;
-
             for (const tool of Object.values(tools)) {
                tool.editor.display();
-            } 
+            }
             requestAnimationFrame(animate);
          }
 
@@ -111,7 +110,6 @@
          }
 
          function save() {
-
             world.zoom = viewport.zoom;
             world.offset = viewport.offset;
 
@@ -119,13 +117,15 @@
             element.setAttribute(
                "href",
                "data:application/json;charset=utf-8," +
-               encodeURIComponent(JSON.stringify(world))
+                  encodeURIComponent(JSON.stringify(world))
             );
+
             const fileName = "name.world";
             element.setAttribute("download", fileName);
 
             element.click();
-            localStorage.setItem("world", JSON.stringify(graph));
+
+            localStorage.setItem("world", JSON.stringify(world));
          }
 
          function load(event) {
@@ -133,7 +133,7 @@
 
             if (!file) {
                alert("No file selected.");
-               return
+               return;
             }
 
             const reader = new FileReader();
@@ -142,8 +142,8 @@
             reader.onload = (evt) => {
                const fileContent = evt.target.result;
                const jsonData = JSON.parse(fileContent);
-               world = World.load(jsonData); 
-               localStorage.setItem("world", JSON.stringify(graph));
+               world = World.load(jsonData);
+               localStorage.setItem("world", JSON.stringify(world));
                location.reload();
             }
          }
@@ -160,7 +160,7 @@
                tool.button.style.backgroundColor = "gray";
                tool.button.style.filter = "grayscale(100%)";
                tool.editor.disable();
-            } 
+            }
          }
       </script>
    </body>
